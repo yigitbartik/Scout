@@ -1,0 +1,14 @@
+streamlit
+pandas
+numpy
+beautifulsoup4
+requests
+plotly
+matplotlib
+seaborn
+mplsoccer
+scipy
+streamlit-option-menu
+Pillow
+
+
