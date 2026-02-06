@@ -468,33 +468,29 @@ elif page == "Veri Havuzu":
             return ''
 
         with st.expander("🔍 Detaylı Filtreleme", expanded=True):
-            # Ayak ve Sözleşme Yılı filtreleri kaldırıldı, sütunlar 3'e bölündü
-            c1, c2, c3 = st.columns(3)
+            # Ayak, Sözleşme Yılı ve Sıralama Rolü filtreleri kaldırıldı, üst alan 2 sütuna düşürüldü
+            c1, c2 = st.columns(2)
             f_pos = c1.multiselect("Mevki", df['position'].unique())
             # 'Takım Stili' -> 'Oyun Tarzı' olarak güncellendi
             f_style = c2.multiselect("Oyun Tarzı", df['oyun_tarzi'].dropna().unique())
-            selected_role = c3.selectbox("Sıralama Rolü", ["Standart"] + logic.get_available_roles("Orta Saha"))
 
-            c4, c5 = st.columns(2)
-            f_val = c4.slider("Piyasa Değeri Aralığı (€m)", 0.0, float(df['val_num'].max()), (0.0, 100.0))
-            f_height = c5.slider("Boy (cm)", 160, 210, (160, 210))
+            c3, c4 = st.columns(2)
+            f_val = c3.slider("Piyasa Değeri Aralığı (€m)", 0.0, float(df['val_num'].max()), (0.0, 100.0))
+            f_height = c4.slider("Boy (cm)", 160, 210, (160, 210))
 
         dff = df.copy()
         if f_pos: dff = dff[dff['position'].isin(f_pos)]
         if f_style: dff = dff[dff['oyun_tarzi'].isin(f_style)]
-        # f_foot ve f_year filtre kontrolleri kaldırıldı
+        # Gereksiz filtre kontrolleri temizlendi
         dff = dff[(dff['val_num'] >= f_val[0]) & (dff['val_num'] <= f_val[1])]
         dff = dff[(dff['height'] >= f_height[0]) & (dff['height'] <= f_height[1])]
 
-        score_col = f"Skor ({selected_role})" if selected_role != "Standart" else "Skor"
-        if selected_role != "Standart": dff['ortalama_puan'] = dff['ortalama_puan'].apply(lambda x: min(100, x + 2))
-        
-        # 'Takım Stili' sütun ismi 'Oyun Tarzı' olarak güncellendi
+        # Sıralama Rolü kaldırıldığı için standart puan (ortalama_puan) kullanılıyor
+        score_col = "Skor"
         dff = dff.rename(columns={'ortalama_puan': score_col, 'son_karar_metni': 'Karar', 'oyun_tarzi': 'Oyun Tarzı'})
 
         st.dataframe(dff[['id', 'club_logo', 'name', 'team', 'Oyun Tarzı', 'position', 'age', 'foot', 'height', score_col, 'Karar']].style.map(color_decision, subset=['Karar']), use_container_width=True, height=600, column_config={"club_logo": st.column_config.ImageColumn("Logo", width="small"), score_col: st.column_config.ProgressColumn("Puan", min_value=0, max_value=100, format="%.1f")})
         
-
 # ==============================================================================
 # SAYFA: OYUNCU PROFİLİ
 # ==============================================================================
@@ -971,4 +967,5 @@ elif page == "Rapor Oluştur":
                 st.balloons()
 
                 st.success(f"Puan: {score:.1f} | Karar: {dec}")
+
 
