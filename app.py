@@ -23,7 +23,7 @@ import random
 import datetime
 
 # --- KONFİGÜRASYON ---
-st.set_page_config(page_title="VARYANS | Futbol Veri Merkezi", layout="wide", page_icon="⚽", initial_sidebar_state="expanded")
+st.set_page_config(page_title="SCOUT | Futbol Veri Merkezi", layout="wide", page_icon="⚽", initial_sidebar_state="expanded")
 WHITE_BG = dict(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)', font=dict(color='#0f172a'))
 PLOT_CONFIG = {'displayModeBar': True}
 
@@ -344,7 +344,7 @@ render_league_header_safe()
 
 with st.sidebar:
     st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Soccerball.svg/1200px-Soccerball.svg.png", width=60)
-    st.markdown("<h1 style='color: white; text-align: center;'>VARYANS</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='color: white; text-align: center;'>SCOUT</h1>", unsafe_allow_html=True)
     st.markdown("<p style='color: #94a3b8; text-align: center; margin-top: -15px;'>Futbol Karar Destek Sistemi</p>", unsafe_allow_html=True)
     
     page = option_menu("Menü", 
@@ -368,7 +368,7 @@ with st.sidebar:
 # YENİ SAYFA: ANA SAYFA (ONBOARDING)
 # ==============================================================================
 if page == "Ana Sayfa":
-    st.title("👋 VARYANS'a Hoşgeldiniz")
+    st.title("👋 SCOUT'a Hoşgeldiniz")
     
     # Canlı İstatistikler (DB Kontrol)
     try:
@@ -383,22 +383,22 @@ if page == "Ana Sayfa":
 
     st.divider()
     
-    # KULLANIM ADIMLARI
+    # KULLANIM ADIMLARI - YENİ DÜZENLEME
     with st.expander("ℹ️ SİSTEM KULLANIM TALİMATI (11 ADIM)", expanded=True):
         st.markdown("""
-        1. **Oyuncu Ekle:** 'Oyuncu Ekle' kısmından Lig Botu ile istediğiniz kadar takım ve oyuncu seçerek veri tabanını oluşturunuz.
-        2. **Veri Doldurma:** Veri Tabanı oluştuktan sonra sol menünün en altından 'Bot: Simülasyon Verisi Üret' butonuna basarak oyuncu verilerini doldurunuz. (Gerçek veri yerine geçici veriler.)
-        3. **Veri Havuzu:** Veri Havuzundan veri tabanındaki oyuncuları filtreleyerek görebilirsiniz.
-        4. **Takip Listesi:** Takip Listesine bakarak raporlanmış oyuncular arasından seçim yapabilirsiniz.
-        5. **Rapor Oluşturma:** Kendiniz rapor oluşturmak istediğinizde 'Rapor Oluştur' kısmından var olan oyunculardan Oyuncu Rolü ve maç seviyesini seçerek gözlem raporlarınızı oluşturabilirsiniz.
-        6. **Oyuncu Profili:** Raporlanan oyuncuları ve grafiklerini (Pizza, Şut Haritası) buradan inceleyebilirsiniz.
-        7. **Kıyaslama:** Oyuncu kıyaslama ekranından başka bir oyuncu ile karşılaştırabilirsiniz.
-        8. **Analiz Dashboard:** Farklı metrikleri (X/Y Ekseni) seçerek görselleştirmeleri inceleyebilirsiniz.
-        9. **Takım Analizi:** Ligin analizini yaparak takımların oyun tarzlarını keşfedebilirsiniz.
-        10. **Maç Merkezi:** Oynanan örnek bir maçın grafiklerini ve simülasyon sonuçlarını görebilirsiniz.
-        11. **Yeni Oyuncu:** 'Oyuncu Ekle' ekranından Transfermarkt oyuncu linki kopyalayarak veri tabanına tekil oyuncu ekleyebilirsiniz.
+        1. **Veri Tabanı Kurulumu:** Oyuncuların temel bilgileri **transfermarkt.com** üzerinden web scraping yöntemi ile sisteme çekilmiştir.
+        2. **Otomatik Raporlama:** Oyuncu raporları, örnek teşkil etmesi amacıyla simülasyon yoluyla scout raporu ve verileriyle otomatik doldurulmuştur.
+        3. **Veri Havuzu:** Veri Havuzu sekmesinde sistemde kayıtlı olan tüm oyuncuları listeleyebilir ve filtreleyebilirsiniz.
+        4. **Takip Listesi:** Raporlanan oyuncular, belirli kriterlere göre Takip Listesi'nde farklı kategorilere (A+, A, B, D) ayrıştırılmışlardır.
+        5. **Oyuncu Profili:** Seçilen oyuncunun ayrıntılı raporuna, istatistiklerine ve gelişmiş veri görselleştirmelerine bu sekmeden ulaşabilirsiniz.
+        6. **Kıyaslama:** Kıyaslama ekranını kullanarak iki farklı oyuncuyu metrikler üzerinden yan yana karşılaştırabilirsiniz.
+        7. **Analiz Dashboard:** Oyuncunun metriklere göre ligdeki konumunu görebilir, metrikleri değiştirerek dinamik veri görselleştirmeleri yapabilirsiniz.
+        8. **Takım Analizi:** Oyuncunun oynadığı kulübün oyun tarzını ve takım verilerini anlamak için bu bölümü kullanabilirsiniz.
+        9. **Maç Merkezi:** Oynanan maçlarla alakalı örnek istatistikler ve simülasyon çıktıları burada sunulmaktadır.
+        10. **Oyuncu Ekleme:** Sisteme yeni bir oyuncu dahil etmek için 'Oyuncu Ekle' sekmesini kullanınız.
+        11. **Rapor Düzenleme:** 'Rapor Oluştur' ekranından mevcut raporları güncelleyebilir veya oyuncunun scouting raporunu manuel olarak girebilirsiniz.
         """)
-        st.info("Dipnot: Buradaki veriler gerçek veriler olmadığından simülasyon ile oluşturulmuştur.")
+        st.info("💡 **Dipnot:** Sistemdeki veriler örnek olması açısından otomatik doldurulmuştur; gerçek verileri yansıtmamaktadır.")
 
     if p_count == 0:
         st.warning("⚠️ Veritabanınız boş görünüyor. Başlamak için soldaki menüden **'Oyuncu Ekle'** sekmesine gidin.")
@@ -968,4 +968,5 @@ elif page == "Rapor Oluştur":
                 txt_data = {'style': role, 'pros': pros, 'cons': cons, 'on_ball': on_ball, 'off_ball': off_ball, 'general': json.dumps(detailed), 'dec': dec}
                 db.save_report(pid, "Analist", {'info': "Man", 'level': match_lvl}, ratings, match_metrics, score, txt_data)
                 st.balloons()
+
                 st.success(f"Puan: {score:.1f} | Karar: {dec}")
